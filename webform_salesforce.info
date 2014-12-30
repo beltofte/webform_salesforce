@@ -1,0 +1,6 @@
+name = Webform/Salesforce Integration
+description = Extends the Webform module to submit to Salesforce using Salesforce API module.
+package = webform
+dependencies[] = webform
+dependencies[] = salesforce
+core = 7.x

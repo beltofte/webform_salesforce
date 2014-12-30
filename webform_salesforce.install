@@ -1,0 +1,74 @@
+<?php
+/**
+ * @file
+ * Install, update and uninstall functions for the Webform Salesforce module.
+ */
+
+/**
+ * Implements hook_schema().
+ */
+function webform_salesforce_schema() {
+  $schema = array();
+
+  // Define mapping storage for each webform
+  $schema['wfsf_mappings'] = array(
+    'description' => 'Table containing mappings for Webform fields to Salesforce fields per node',
+    'fields' => array(
+      'nid' => array(
+        'description' => 'Node ID of Webform',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'vid' => array(
+        'description' => 'Version ID of Webform node',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+      'object' => array(
+        'description' => 'Salesforce object type for this form',
+        'type' => 'text',
+        'size' => 'medium',
+      ),
+      'map' => array(
+        'description' => 'Mapping for fields',
+        'type' => 'text',
+        'size' => 'medium',
+      ),
+    ), // fields
+    'primary key' => array('nid'),
+  );
+
+  // Define storage of submission ID and Salesforce ID
+  $schema['wfsf_submissions'] = array(
+    'description' => 'Table containing submission ID and Salesforce ID for each transaction stored in Salesforce',
+    'fields' => array(
+      'sid' => array(
+        'description' => 'The unique identifier for this submission.',
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'sfid' => array(
+        'description' => 'Salesforce record ID',
+        'type' => 'varchar',
+        'length' => '128',
+      ),
+      'time' => array(
+        'description' => 'Timestamp when the submission was saved in Salesforce.',
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+    ), // fields
+    'primary key' => array('sid'),
+    'indexes' => array(
+      'sid' => array('sid'),
+      'sfid' => array('sfid'),
+    ),
+  );
+
+  return $schema;
+}
